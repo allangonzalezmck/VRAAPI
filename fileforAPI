@@ -1,0 +1,43 @@
+using System;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace VraApiExample
+{
+    class Program
+    {
+        static async Task Main(string[] args)
+        {
+            var apiUrl = "https://<vra-url>/automation/api/token";
+            var username = "YOUR_USERNAME";
+            var password = "YOUR_PASSWORD";
+
+            using (var client = new HttpClient())
+            {
+                var authData = new
+                {
+                    username = username,
+                    password = password
+                };
+
+                var content = new StringContent(
+                    Newtonsoft.Json.JsonConvert.SerializeObject(authData), 
+                    Encoding.UTF8, 
+                    "application/json");
+
+                HttpResponseMessage response = await client.PostAsync(apiUrl, content);
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseData = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine(responseData);
+                }
+                else
+                {
+                    Console.WriteLine($"Error: {response.StatusCode}");
+                }
+            }
+        }
+    }
+}
