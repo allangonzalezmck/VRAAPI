@@ -1,0 +1,112 @@
+To make a POST API call with an authorization body that includes your username and password, you can use either C# or Python in Visual Studio. Here are examples for both languages.
+
+### Example in C#
+
+1. **Create a New Project:**
+   - Open Visual Studio and create a new Console App (.NET Core or .NET Framework) project.
+
+2. **Add Dependencies:**
+   - Ensure you have the `System.Net.Http` library referenced in your project. You can add it via NuGet Package Manager if it's not already included.
+
+3. **Write the Code to Make the POST API Call:**
+   ```csharp
+   using System;
+   using System.Net.Http;
+   using System.Net.Http.Headers;
+   using System.Text;
+   using System.Threading.Tasks;
+
+   namespace VraApiExample
+   {
+       class Program
+       {
+           static async Task Main(string[] args)
+           {
+               var apiUrl = "https://<vra-url>/automation/api/token";
+               var username = "YOUR_USERNAME";
+               var password = "YOUR_PASSWORD";
+
+               using (var client = new HttpClient())
+               {
+                   var authData = new
+                   {
+                       username = username,
+                       password = password
+                   };
+
+                   var content = new StringContent(
+                       Newtonsoft.Json.JsonConvert.SerializeObject(authData), 
+                       Encoding.UTF8, 
+                       "application/json");
+
+                   HttpResponseMessage response = await client.PostAsync(apiUrl, content);
+                   if (response.IsSuccessStatusCode)
+                   {
+                       var responseData = await response.Content.ReadAsStringAsync();
+                       Console.WriteLine(responseData);
+                   }
+                   else
+                   {
+                       Console.WriteLine($"Error: {response.StatusCode}");
+                   }
+               }
+           }
+       }
+   }
+   ```
+
+4. **Replace Placeholders:**
+   - Replace `YOUR_USERNAME` and `YOUR_PASSWORD` with your actual username and password.
+   - Replace `https://<vra-url>/automation/api/token` with the actual URL for obtaining the token.
+
+5. **Run the Application:**
+   - Press `F5` to run the application. It will make the POST API call and print the response to the console.
+
+### Example in Python
+
+1. **Install Python Tools for Visual Studio:**
+   - Ensure you have the Python development workload installed in Visual Studio.
+
+2. **Create a New Python Project:**
+   - Create a new Python Application project in Visual Studio.
+
+3. **Install Requests Library:**
+   - Open the terminal in Visual Studio and run:
+     ```sh
+     pip install requests
+     ```
+
+4. **Write the Code to Make the POST API Call:**
+   ```python
+   import requests
+   import json
+
+   api_url = 'https://<vra-url>/automation/api/token'
+   username = 'YOUR_USERNAME'
+   password = 'YOUR_PASSWORD'
+
+   auth_data = {
+       'username': username,
+       'password': password
+   }
+
+   headers = {
+       'Content-Type': 'application/json'
+   }
+
+   response = requests.post(api_url, headers=headers, data=json.dumps(auth_data))
+
+   if response.status_code == 200:
+       print(response.json())
+   else:
+       print(f'Error: {response.status_code}, {response.text}')
+   ```
+
+5. **Replace Placeholders:**
+   - Replace `YOUR_USERNAME` and `YOUR_PASSWORD` with your actual username and password.
+   - Replace `https://<vra-url>/automation/api/token` with the actual URL for obtaining the token.
+
+6. **Run the Application:**
+   - Press `F5` to run the application. It will make the POST API call and print the response to the console.
+
+Both methods will allow you to make a POST API call with an authorization body that includes your username and password. If you need further assistance or specific adjustments, feel free to ask!
