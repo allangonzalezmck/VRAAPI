@@ -1,0 +1,25 @@
+# Define the API endpoint and your credentials
+$apiUrl = "https://your-vra-url/automation/api/token"
+$username = "your_username"
+$password = "your_password"
+
+# Create the body of the request
+$body = @{
+    username = $username
+    password = $password
+} | ConvertTo-Json
+
+# Set the headers for the request
+$headers = @{
+    "Content-Type" = "application/json"
+}
+
+# Make the POST request
+$response = Invoke-RestMethod -Uri $apiUrl -Method Post -Body $body -Headers $headers
+
+# Check the response and output the token
+if ($response) {
+    Write-Output "Token: $($response.token)"
+} else {
+    Write-Output "Error: $response"
+}
