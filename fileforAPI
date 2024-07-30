@@ -13,3 +13,35 @@ access_token=$(curl -X POST \
   -H 'Content-Type: application/json' \
   -H 'Accept: application/json' \
   -d "{\"api_token\": \"$api_token\"}")
+
+
+
+
+
+
+
+response=$(curl -X POST \
+  "https://<your_FQDN>/csp/gateway/am/api/login?access_token" \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json' \
+  -d '{
+        "username": "<your_username>",
+        "password": "<your_password>"
+      }')
+
+if [ $? -ne 0 ]; then
+  echo "Error fetching API token: $(curl -s --stderr /dev/null)"
+  exit 1
+fi
+
+echo "Raw response:"
+echo "$response"
+
+api_token=$(echo "$response" | jq -r .refresh_token)
+
+if [ $? -ne 0 ]; then
+  echo "Error parsing API token"
+  exit 1
+fi
+
+echo "API Token: $api_token"
