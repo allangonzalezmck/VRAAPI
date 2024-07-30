@@ -1,47 +1,35 @@
-# Replace placeholders with your actual values
-api_token=$(curl -X POST \
-  "https://<your_FQDN>/csp/gateway/am/api/login?access_token" \
-  -H 'Content-Type: application/json' \
-  -H 'Accept: application/json' \
-  -d '{
-        "username": "<your_username>",
-        "password": "<your_password>"
-      }' | jq -r .refresh_token)
+import requests
+import json
 
-access_token=$(curl -X POST \
-  "https://<your_FQDN>/api/iaas/v1/auth/token" \
-  -H 'Content-Type: application/json' \
-  -H 'Accept: application/json' \
-  -d "{\"api_token\": \"$api_token\"}")
+# Replace these with your actual vRA URL, username, and password
+api_url = 'https://<vra-url>/csp/gateway/am/api/login?access_token'
+username = 'YOUR_USERNAME'
+password = 'YOUR_PASSWORD'
 
+# Create the payload for the POST request
+auth_data = {
+    'username': username,
+    'password': password
+}
 
+# Set the headers for the request
+headers = {
+    'Content-Type': 'application/json'
+}
 
+# Print the request details for debugging
+print("API URL:", api_url)
+print("Request Headers:", headers)
+print("Request Body:", json.dumps(auth_data, indent=4))
 
+# Make the POST request
+response = requests.post(api_url, headers=headers, data=json.dumps(auth_data))
 
+# Check the response status and print the output
+print("Response Status Code:", response.status_code)
+print("Response Body:", response.text)
 
-
-response=$(curl -X POST \
-  "https://<your_FQDN>/csp/gateway/am/api/login?access_token" \
-  -H 'Content-Type: application/json' \
-  -H 'Accept: application/json' \
-  -d '{
-        "username": "<your_username>",
-        "password": "<your_password>"
-      }')
-
-if [ $? -ne 0 ]; then
-  echo "Error fetching API token: $(curl -s --stderr /dev/null)"
-  exit 1
-fi
-
-echo "Raw response:"
-echo "$response"
-
-api_token=$(echo "$response" | jq -r .refresh_token)
-
-if [ $? -ne 0 ]; then
-  echo "Error parsing API token"
-  exit 1
-fi
-
-echo "API Token: $api_token"
+if response.status_code == 200:
+    print('Token:', response.json())
+else:
+    print(f'Error: {response.status_code}, {response.text}')
