@@ -1,0 +1,27 @@
+Subject: Urgent: Meeting Required to Address Critical Template Issues in Onboarding Process
+
+Dear Team,
+
+I hope this email finds you well.
+
+We are currently facing significant challenges with our ongoing effort to onboard new clients into our infrastructure using Jira Service Management (JSM) for the initial data ingestion, which triggers a project in vRealize Automation (vRA) and assigns the corresponding templates for Linux and Windows.
+
+Problem 1:
+The template being used for the automated self-service onboarding is obsolete and contains several lines that are causing the system to fail. It is imperative that we address and fix this template as soon as possible to prevent further disruptions.
+
+Problem 2:
+At present, Chitra and Pavan from the India team are handling the manual intervention for these onboard requests. While they have conducted a knowledge transfer session with the USA team and shared the "corrected templates" for Linux and Windows, these templates have been found to contain numerous missing parts. As a result, they are generating a substantial number of requests when deployed for customer use.
+
+To address these issues effectively, it is crucial that we have Chitra and Pavan present at our meeting scheduled for tomorrow morning. Their insights and immediate actions are necessary to resolve the template deficiencies and streamline our onboarding process.
+
+I have copied their manager and our director on this email for visibility, as Mike, our senior team member in the USA, is continuously fixing these templates due to frequent direct client issues, and the problem persists despite his efforts.
+
+Meeting Details:
+
+Date: [Insert Date]
+Time: [Insert Time]
+Agenda: Addressing the template issues for Linux and Windows onboarding processes, with a focus on immediate fixes and long-term solutions.
+I appreciate everyone's prompt attention to this matter and look forward to resolving these critical issues together.
+
+Best regards,
+
