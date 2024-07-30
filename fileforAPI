@@ -1,43 +1,15 @@
-using System;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
+# Replace placeholders with your actual values
+api_token=$(curl -X POST \
+  "https://<your_FQDN>/csp/gateway/am/api/login?access_token" \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json' \
+  -d '{
+        "username": "<your_username>",
+        "password": "<your_password>"
+      }' | jq -r .refresh_token)
 
-namespace VraApiExample
-{
-    class Program
-    {
-        static async Task Main(string[] args)
-        {
-            var apiUrl = "https://<vra-url>/automation/api/token";
-            var username = "YOUR_USERNAME";
-            var password = "YOUR_PASSWORD";
-
-            using (var client = new HttpClient())
-            {
-                var authData = new
-                {
-                    username = username,
-                    password = password
-                };
-
-                var content = new StringContent(
-                    Newtonsoft.Json.JsonConvert.SerializeObject(authData), 
-                    Encoding.UTF8, 
-                    "application/json");
-
-                HttpResponseMessage response = await client.PostAsync(apiUrl, content);
-                if (response.IsSuccessStatusCode)
-                {
-                    var responseData = await response.Content.ReadAsStringAsync();
-                    Console.WriteLine(responseData);
-                }
-                else
-                {
-                    Console.WriteLine($"Error: {response.StatusCode}");
-                }
-            }
-        }
-    }
-}
+access_token=$(curl -X POST \
+  "https://<your_FQDN>/api/iaas/v1/auth/token" \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json' \
+  -d "{\"api_token\": \"$api_token\"}")
